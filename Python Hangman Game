@@ -1,0 +1,76 @@
+#defining a method to store all the words and number of chances, the function also takes a word and number of chances in random
+#creating all the variables in the method as global variables so that they can be accesses in other methods too
+def random():
+  import random
+  global random_word
+  global total_turns
+  global word_list
+  word_list=["china","india","america","indonesia","pakistan","nigeria","brazil","bangladesh","russia","mexico"]
+  random_word = word_list[random.randint(0, len(word_list)-1)]
+  total_turns= random.randrange(4,11)
+random()
+#defining a method to store all the main code for the game
+def Hangman(word_list,total_turns):
+#importing time module to use in in between sentences while user is guessing
+#printing the start and welcome note to the user based on user's name
+  import time
+  user_name= input("Enter you name: ")
+  print("Hello", user_name, "welcome to hangman game")
+  print()
+  time.sleep(0.5)
+  print("start guessing......")
+  time.sleep(1)
+  print("Its a ", len(random_word), "letter word")
+  time.sleep(0.5)
+#assigning the random word from the previous method to this variable
+  word= random_word
+#creating a variable to store user entered correct guesses
+  guesses=""
+  print("You have", total_turns, "guesses")
+#creating a while loop unless the number of guesses are less than or equal to zero
+  while total_turns>0:
+    wrong_guess=0
+#looping throught the shuffled word for matches with the user entetred character and printing the letter in its place and if the 
+#letter is not in the word, then printing a "_" instead
+#decreasing the number of chancces by one if the user entered a wrng guess
+    for char in word:
+      if char in guesses:
+        print(char)
+      else:
+        print("_")
+        wrong_guess+=1
+    if wrong_guess==0:
+      print("You Won!!")
+      break
+    print()
+#taking a character from the user and appending it to the pre defined variable
+#creating a if loop if the user enters more than one character
+#printing win statement if the wrong guesses is zero and the guesses lenght is equal to the defined word
+    guess= input("Enter a character to guess the word: ")
+    guesses+=guess
+    if len(guess)!=1:
+      print("Please enter only one character")
+      time.sleep(1)
+      guess=input("Enter a character to guess the word: ")
+    if guess not in word:
+      total_turns -=1
+      time.sleep(1)
+      print("Wrong Guess")
+      print("You have", total_turns, "left")
+      if total_turns==0:
+        print("You Lose :(")
+Hangman(random_word,total_turns)
+#creating a endnote which asks the user if the user wanna play the game again or not
+#if the user wanna play the game then calling both the function again
+#if no printing thank note
+def Endnote():
+  again= input("Would you like to play again?(yes/no): ")
+  again.lower()
+  if again=="no":
+    print("Thank You for playing the Hangman game")
+  if again=="yes":
+    random()
+    Hangman(random_word,total_turns)
+Endnote()
+
+
